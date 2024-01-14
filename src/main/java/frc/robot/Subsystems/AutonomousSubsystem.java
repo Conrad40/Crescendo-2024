@@ -6,7 +6,7 @@ import java.util.Map;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.proto.Trajectory;
+import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
@@ -22,7 +22,7 @@ import frc.robot.Libraries.ConsoleAuto;
 import frc.robot.Libraries.StepState;
 
 
-//There is a 95% chance that it will crash if you try to run auto so dont
+//There is a 95% chance that it will crash if you try to run auto so, like dont
 public class AutonomousSubsystem {
     private enum Paths {
         BASIC(0, 0, 2.5, 0),
