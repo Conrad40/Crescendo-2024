@@ -107,7 +107,7 @@ public class SwerveCorner {private final CANSparkMax m_drivingSparkMax;
       m_drivingSparkMax.burnFlash();
       m_turningSparkMax.burnFlash();
   
-      m_chassisAngularOffset = chassisAngularOffset+90;
+      m_chassisAngularOffset = chassisAngularOffset +90;
       m_desiredState.angle = new Rotation2d(m_turningEncoder.getPosition());
       m_drivingEncoder.setPosition(0);
     }

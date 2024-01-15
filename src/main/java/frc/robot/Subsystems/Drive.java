@@ -22,6 +22,11 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.Libraries.SwerveCorner;
 import frc.robot.Libraries.SwerveUtils;
 
+//I don't enterly know how the swerve drive works, 98% of the swerve stuff i copied from here,
+//https://github.com/4662FRCRobotics/Swervedrive-2023/tree/master
+//which I copied from here
+//https://github.com/REVrobotics/MAXSwerve-Java-Template
+
 public class Drive extends SubsystemBase {
   /** Creates a new Drive. */
   private final SwerveCorner m_frontLeft = new SwerveCorner(
@@ -46,7 +51,7 @@ public class Drive extends SubsystemBase {
 
   // The gyro sensor
   private final AHRS m_gyro = new AHRS();
- 
+
   // Slew rate filter variables for controlling lateral acceleration
   private double m_currentRotation = 0.0;
   private double m_currentTranslationDir = 0.0;
@@ -70,10 +75,10 @@ public class Drive extends SubsystemBase {
   /** Creates a new DriveSubsystem. */
   public Drive() {
     m_trajectoryConfig = new TrajectoryConfig(
-      DriveConstants.kMAX_SPEED_METERS_PER_SECOND,
-      DriveConstants.kMAX_ACCELERATION_METERS_PER_SECOND_SQUARED)
-      .setKinematics(DriveConstants.kDRIVE_KINEMATICS);
-      
+        DriveConstants.kMAX_SPEED_METERS_PER_SECOND,
+        DriveConstants.kMAX_ACCELERATION_METERS_PER_SECOND_SQUARED)
+        .setKinematics(DriveConstants.kDRIVE_KINEMATICS);
+
   }
 
   @Override
@@ -248,6 +253,7 @@ public class Drive extends SubsystemBase {
   public TrajectoryConfig getTrajConfig() {
     return m_trajectoryConfig;
   }
+
   public double getTurnRate() {
     return m_gyro.getRate() * (DriveConstants.kGYRO_REVERSED ? -1.0 : 1.0);
   }

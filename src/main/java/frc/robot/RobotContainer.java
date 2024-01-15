@@ -4,34 +4,47 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Libraries.ConsoleAuto;
 import frc.robot.Subsystems.Drive;
 
 /** Add your docs here. */
+// If the climb has 2 independent arms it might be usfule to be able to
+// indepently move them
+// I dont want to have 2 driver controlers if not completly nessisary, last
+// years two controllers were annoying.
 public class RobotContainer {
-    private final Drive m_drive = new Drive();
+        private final Drive m_drive = new Drive();
 
-    private final CommandXboxController m_driverController = new CommandXboxController(OperatorConstants.kDRIVER_CONTROLLER_PORT);
-    private final ConsoleAuto m_consoleAuto = new ConsoleAuto(OperatorConstants.kAUTONOMOUS_CONSOLE_PORT);
-    // private final AutonomousSubsystem m_autonomous = new
-    // AutonomousSubsystem(m_consoleAuto,m_robotDrive);
+        private final CommandXboxController m_driverController = new CommandXboxController(
+                        OperatorConstants.kDRIVER_CONTROLLER_PORT);
+        private final ConsoleAuto m_consoleAuto = new ConsoleAuto(OperatorConstants.kAUTONOMOUS_CONSOLE_PORT);
+        // private final AutonomousSubsystem m_autonomous = new
+        // AutonomousSubsystem(m_consoleAuto,m_robotDrive);
 
-    public RobotContainer() {
+        public RobotContainer() {
 
-m_drive.setDefaultCommand(
-        Commands.run(
-            () -> m_drive.drive(
-                -m_driverController.getLeftX(),
-                -m_driverController.getLeftY(),
-                -m_driverController.getRightX(), false,
-                true), m_drive));
+                m_drive.setDefaultCommand(
+                                Commands.run(
+                                                () -> m_drive.drive(
+                                                                -m_driverController.getLeftX(),
+                                                                -m_driverController.getLeftY(),
+                                                                -m_driverController.getRightX(), false,
+                                                                true),
+                                                m_drive));
 
-    }
-    private void configureBindings() {
+        }
 
-    }
+        private void configureBindings() {
+
+                m_driverController
+                                .x()
+                                .whileTrue((new RunCommand(() -> m_drive.setX(), m_drive)));
+
+        }
+
 }
