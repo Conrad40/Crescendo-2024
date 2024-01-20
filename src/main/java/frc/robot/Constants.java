@@ -42,7 +42,7 @@ public final class Constants {
         public static final double kFrontLeftChassisAngularOffset = -Math.PI / 2;
         public static final double kFrontRightChassisAngularOffset = 0;
         public static final double kBackLeftChassisAngularOffset = Math.PI;
-        public static final double kBackRightChassisAngularOffset = Math.PI / 2;
+        public static final double kBackRightChassisAngularOffset = -Math.PI / 2;//This shouldnt work, but it might
 
         public static final double kTrackWidth = Units.inchesToMeters(26.5);
         // Distance between centers of right and left wheels on robot
