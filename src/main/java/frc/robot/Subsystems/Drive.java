@@ -16,6 +16,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.util.WPIUtilJNI;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CANIDConstants;
 import frc.robot.Constants.DriveConstants;
@@ -134,6 +135,11 @@ public class Drive extends SubsystemBase {
 
     double xSpeedCommanded;
     double ySpeedCommanded;
+
+    //this might be useful for debugging/trouble shooting
+    SmartDashboard.putNumber("Strafe speed",xSpeed);
+    SmartDashboard.putNumber("forward speed", ySpeed);
+    SmartDashboard.putNumber("rotation speed",rot);
 
     if (rateLimit) {
       // Convert XY to polar for rate limiting
