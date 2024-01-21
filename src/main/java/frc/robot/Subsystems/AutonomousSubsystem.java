@@ -1,5 +1,7 @@
 package frc.robot.Subsystems;
 
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 
@@ -8,11 +10,15 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Commands.WaitForCount;
 import frc.robot.Libraries.AutonomousCommandSelector;
@@ -21,7 +27,9 @@ import frc.robot.Libraries.AutonomousSteps;
 import frc.robot.Libraries.ConsoleAuto;
 import frc.robot.Libraries.StepState;
 
-//There is a 95% chance that it will crash if you try to run auto so, like dont
+//There is a 95% chance that it will crash if you try to run auto so dont
+// Something interesting I found was DriverStation.getMatchTime() It returns how much time is left, might be useful.
+
 public class AutonomousSubsystem {
         private enum Paths {
                 BASIC(0, 0, 2.5, 0),
@@ -289,5 +297,134 @@ public class AutonomousSubsystem {
                                 new Pose2d(path.getEndX(), path.getEndY(), new Rotation2d(0)),
                                 m_drive.getTrajConfig());
         }
+
+        // read externally generated trajectory (path) from an external file in the
+        // standard "deploy" path
+        // these are generated from a standard tool such as pathweaver
+        private Trajectory readPaths(String jsonPath) {
+                Trajectory trajectory = null;
+                try {
+                        Path trajPath = Filesystem.getDeployDirectory().toPath().resolve(jsonPath);
+                        trajectory = TrajectoryUtil.fromPathweaverJson(trajPath);
+                } catch (IOException ex) {
+
+                }
+                return trajectory;
+        }
+
+        /*@Override
+        public void periodic() {
+                // This method will be called once per scheduler run
+        }*/
+
+          public void selectAutoCommand() {
+
+    int autoSelectIx = m_ConsoleAuto.getROT_SW_0();
+    m_iPatternSelect = autoSelectIx;
+    if (autoSelectIx >= m_autoSelectCommand.length) {
+      autoSelectIx = 0;
+      m_iPatternSelect = 0;
+    }
+
+    boolean isAllianceRed = (DriverStation.getAlliance().toString() == "Red");
+    m_allianceColor.setBoolean(isAllianceRed);
+
+    m_selectedCommand = m_autoSelectCommand[autoSelectIx];
+    m_strCommand = m_selectedCommand.toString();
+    m_autoCmd.setString(m_strCommand);
+
+    for (int ix = 0; ix < m_cmdSteps[autoSelectIx].length; ix++) {
+      m_strStepList[ix] = m_cmdSteps[autoSelectIx][ix].getStrName();
+      m_bStepSWList[ix] = m_cmdSteps[autoSelectIx][ix].isTrue();
+      m_strStepStatusList[ix] = kSTATUS_PEND;
+    }
+    for (int ix = m_cmdSteps[autoSelectIx].length; ix < m_strStepList.length; ix++) {
+      m_strStepList[ix] = "";
+      m_bStepSWList[ix] = false;
+      m_strStepStatusList[ix] = "";
+    }
+
+    for (int ix = 0; ix < kSTEPS; ix++) {
+      m_step[ix].setString(m_strStepList[ix]);
+      m_sw[ix].setValue(m_bStepSWList[ix]);
+      m_st[ix].setString(m_strStepStatusList[ix]);
+    }
+
+    m_iWaitCount = m_ConsoleAuto.getROT_SW_1();
+    m_iWaitLoop.setValue(m_iWaitCount);
+
+  }
+
+
+  public Command getNextCommand() {
+        m_currentStepName = null;
+        m_currentCommand = null;
+        String completionAction = kSTATUS_DONE;
+    
+        while (m_currentCommand == null && !m_bIsCommandDone) {
+          m_currentStepName = getNextActiveCommand(completionAction);
+          if (m_currentStepName != null) {
+            switch (m_currentStepName) {
+              case WAIT1:
+                m_currentCommand = getWaitCommand(1);
+                break;
+              case WAIT2:
+                m_currentCommand = getWaitCommand(2);
+                break;
+              case WAITLOOP:
+                m_currentCommand = getWaitCommand(m_ConsoleAuto.getROT_SW_1());
+                break;
+              default:
+                m_currentCommand = m_autoCommand.getSelected(m_currentStepName);
+                break;
+            }
+    
+            if (m_currentCommand == null) {
+              completionAction = kSTATUS_NULL;
+            }
+          }
+        }
+        return m_currentCommand;
+      }
+      private AutonomousSteps getNextActiveCommand(String completionAction) {
+
+        // System.out.println("getNextActiveCommand");
+    
+        AutonomousSteps stepName = null;
+    
+        while (stepName == null && !m_bIsCommandDone) {
+          if (m_stepIndex >= 0 && m_stepIndex < kSTEPS) {
+            m_strStepStatusList[m_stepIndex] = completionAction;
+            m_st[m_stepIndex].setString(m_strStepStatusList[m_stepIndex]);
+          }
+          m_stepIndex++;
+          if (m_stepIndex >= m_cmdSteps[m_iPatternSelect].length) {
+            m_bIsCommandDone = true;
+          } else {
+            if (m_stepIndex < kSTEPS) {
+              m_bStepSWList[m_stepIndex] = m_cmdSteps[m_iPatternSelect][m_stepIndex].isTrue();
+              m_sw[m_stepIndex].setValue(m_bStepSWList[m_stepIndex]);
+              // System.out.println("Step Boolean" + m_bStepSWList [m_stepIndex]);
+            }
+            if (m_cmdSteps[m_iPatternSelect][m_stepIndex].isTrue()) {
+              m_strStepStatusList[m_stepIndex] = kSTATUS_ACTIVE;
+              m_st[m_stepIndex].setString(m_strStepStatusList[m_stepIndex]);
+              stepName = m_cmdSteps[m_iPatternSelect][m_stepIndex].getName();
+            } else {
+              completionAction = kSTATUS_SKIP;
+            }
+          }
+        }
+    
+        return stepName;
+      }
+
+        public boolean isCommandDone() {
+    return m_bIsCommandDone;
+  }
+
+  public Command getWaitCommand(double seconds) {
+    return Commands.waitSeconds(seconds);
+  }
 
 }
