@@ -42,11 +42,12 @@ public final class Constants {
         public static final double kFrontLeftChassisAngularOffset = -Math.PI / 2;
         public static final double kFrontRightChassisAngularOffset = 0;
         public static final double kBackLeftChassisAngularOffset = Math.PI;
-        public static final double kBackRightChassisAngularOffset = -Math.PI / 2;//This shouldnt work, but it might
+        public static final double kBackRightChassisAngularOffset = -Math.PI / 2;//This shouldnt work, but it does
 
-        public static final double kTrackWidth = Units.inchesToMeters(26.5);
+        public static final double kTrackWidth = Units.inchesToMeters(28);
         // Distance between centers of right and left wheels on robot
-        public static final double kWheelBase = Units.inchesToMeters(26.5);
+        //you might have to switch them depending on what ends up being the front
+        public static final double kWheelBase = Units.inchesToMeters(25);
 
         // Distance between front and back wheels on robot
         public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(

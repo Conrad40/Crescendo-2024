@@ -25,9 +25,9 @@ public class RobotContainer {
 m_drive.setDefaultCommand(
         Commands.run(
             () -> m_drive.drive(
-                -m_driverController.getLeftX(),
-                -m_driverController.getLeftY(),
-                -m_driverController.getRightX(), false,
+                -MathUtil.applyDeadband(-m_driverController.getLeftX(), .08),
+                -MathUtil.applyDeadband(m_driverController.getLeftY(), .08),
+                -MathUtil.applyDeadband(m_driverController.getRightX(), .08), false,
                 true), m_drive));
 
     }
