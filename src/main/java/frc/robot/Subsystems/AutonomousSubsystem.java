@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.Commands.SwerveDriveController;
 import frc.robot.Commands.WaitForCount;
 import frc.robot.Libraries.AutonomousCommandSelector;
 import frc.robot.Libraries.AutonomousCommands;
@@ -231,7 +232,7 @@ public class AutonomousSubsystem {
         private StepState m_stepPlaceConeM;
 
         // find a replacement for ramseteDrive
-        // private RamseteDrivePath m_drive3Path;
+         private SwerveDriveController m_drivePath;
         private StepState m_stepDrivePath;
         private StepState m_stepMoveArm;
         private Command m_moveArm;
@@ -265,13 +266,13 @@ public class AutonomousSubsystem {
 
                 // make it work. How - IDK. I just want it to have a clean build for now.
                 // ln 221
-                /*
-                 * m_drivePath = new RamseteDrivePath(genTrajectory(Paths.BASIC),
-                 * kRESET_ODOMETRY, m_drive);
-                 * m_autoCommand.addOption(AutonomousSteps.DRIVE3, m_drivePath);
-                 * m_stepDrivePath = new StepState(AutonomousSteps.DRIVE3,
-                 * m_ConsoleAuto.getSwitchSupplier(ConsoleConstants.kDRIVE_PATTERN_1_SW));
-                 */
+                
+                  m_drivePath = new SwerveDriveController(genTrajectory(Paths.BASIC),
+                  kRESET_ODOMETRY, m_drive);
+                  m_autoCommand.addOption(AutonomousSteps.DRIVE3, m_drivePath);
+                  m_stepDrivePath = new StepState(AutonomousSteps.DRIVE3,
+                  m_ConsoleAuto.getSwitchSupplier(1));
+                 
 
                 /*
                  * m_autoCommand.addOption(AutonomousSteps.TURNPATH, new
