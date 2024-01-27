@@ -14,48 +14,47 @@ import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Subsystems.Drive;
 
-public class SwerveDriveController extends Command {
+public class SwerveDriveController extends SwerveControllerCommand {
   /** Creates a new SwerveDriveController. */
 
   private Drive m_drive;
   private Trajectory m_trajectory;
   private boolean m_resetOdometry;
 
-  private HolonomicDriveController thetaController = new HolonomicDriveController(new PIDController(1.0, 0.0, 0.0),
-        new PIDController(1.0, 0.0, 0.0), new ProfiledPIDController(1.0, 0.0, 0.0, null));
+  public SwerveDriveController(Trajectory trajectory, boolean resetOdometry, Drive drive, ProfiledPIDController thetaController) {
 
-  public SwerveDriveController(Trajectory trajectory, boolean resetOdometry, Drive drive) {
+    super(trajectory, drive::getPose, DriveConstants.kDriveKinematics, 
+     new PIDController(1, 0, 0), new PIDController(1, 0, 0), thetaController,
+        drive::setModuleStates, drive);
     // Use addRequirements() here to declare subsystem dependencies.
-
-    new SwerveControllerCommand(trajectory,
-        drive::getPose, // Functional interface to feed supplier
-        DriveConstants.kDriveKinematics,
-        // Position controllers
-        thetaController,
-        drive::setModuleStates,
-        drive);
-
-        addRequirements(drive);
+addRequirements(drive);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    if (m_resetOdometry) {
+      m_drive.resetOdometry(m_trajectory.getInitialPose());
+    }
   }
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-  }
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-  }
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
+  /*
+   * // Called every time the scheduler runs while the command is scheduled.
+   * 
+   * @Override
+   * public void execute() {
+   * }
+   * 
+   * // Called once the command ends or is interrupted.
+   * 
+   * @Override
+   * public void end(boolean interrupted) {
+   * }
+   * 
+   * // Returns true when the command should end.
+   * 
+   * @Override
+   * public boolean isFinished() {
+   * return false;
+   * }
+   */
 }

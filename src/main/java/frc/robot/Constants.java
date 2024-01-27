@@ -6,6 +6,9 @@ package frc.robot;
 
 import com.revrobotics.CANSparkBase.IdleMode;
 
+import edu.wpi.first.math.controller.HolonomicDriveController;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
@@ -57,6 +60,11 @@ public final class Constants {
                 new Translation2d(-kWheelBase / 2, -kTrackWidth / 2));
         // Chassis configuration
         public static final boolean kGyroReversed = false;
+
+
+         //public static final HolonomicDriveController thetaController = new HolonomicDriveController(new PIDController(1.0, 0.0, 0.0),
+        //new PIDController(1.0, 0.0, 0.0), new ProfiledPIDController(1.0, 0.0, 0.0, null));
+
     }
 
     public static class SwerveConstants {

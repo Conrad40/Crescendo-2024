@@ -32,8 +32,8 @@ import frc.robot.Libraries.StepState;
 //There is a 95% chance that it will crash if you try to run auto so dont
 // Something interesting I found was DriverStation.getMatchTime() It returns how much time is left, might be useful.
 public class AutonomousSubsystem extends SubsystemBase {
-  private enum Paths {
-    BASIC(0, 0, 2.5, 0),
+  public enum Paths {
+    BASIC(0.0, 0.0, 2.5, 2.0),
     BEND(0, 0, 1, .5, 2, 0);
 
     private final double m_dStartX;
@@ -264,8 +264,8 @@ public class AutonomousSubsystem extends SubsystemBase {
 
     // make it work. How - IDK. I just want it to have a clean build for now.
     // ln 221
-    m_drivePath = new SwerveDriveController(genTrajectory(Paths.BASIC),
-        kRESET_ODOMETRY, m_drive);
+    //m_drivePath = new SwerveDriveController(genTrajectory(Paths.BASIC),
+        //kRESET_ODOMETRY, m_drive,);
     m_autoCommand.addOption(AutonomousSteps.DRIVE, m_drivePath);
     m_stepDrivePath = new StepState(AutonomousSteps.DRIVE,
         m_ConsoleAuto.getSwitchSupplier(3));
@@ -284,7 +284,7 @@ public class AutonomousSubsystem extends SubsystemBase {
     };
   }
 
-  private Trajectory genTrajectory(Paths path) {
+  public Trajectory genTrajectory(Paths path) {
     // System.out.println(path.getEndX());
     return TrajectoryGenerator.generateTrajectory(
         new Pose2d(path.getStartX(), path.getStartY(), new Rotation2d(0)),
@@ -322,7 +322,7 @@ public class AutonomousSubsystem extends SubsystemBase {
       autoSelectIx = 0;
       m_iPatternSelect = 0;
     }
-//System.out.println(DriverStation.getAlliance().toString());
+System.out.println(DriverStation.getAlliance().toString());
     boolean isAllianceRed = (DriverStation.getAlliance().toString() == "Red");
     m_allianceColor.setBoolean(isAllianceRed);
 
