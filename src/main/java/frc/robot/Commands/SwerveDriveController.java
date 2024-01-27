@@ -34,6 +34,8 @@ public class SwerveDriveController extends Command {
         thetaController,
         drive::setModuleStates,
         drive);
+
+        addRequirements(drive);
   }
 
   // Called when the command is initially scheduled.
