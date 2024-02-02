@@ -5,12 +5,14 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.trajectory.TrajectoryUtil;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
@@ -264,8 +266,11 @@ public class AutonomousSubsystem extends SubsystemBase {
 
     // make it work. How - IDK. I just want it to have a clean build for now.
     // ln 221
-    //m_drivePath = new SwerveDriveController(genTrajectory(Paths.BASIC),
-        //kRESET_ODOMETRY, m_drive,);
+    var thetaController = new ProfiledPIDController(2, 0,0, new Constraints(5, 1));
+        thetaController.enableContinuousInput(-Math.PI, Math.PI);
+
+  m_drivePath = new SwerveDriveController(genTrajectory(Paths.BASIC),
+        kRESET_ODOMETRY, m_drive, thetaController);
     m_autoCommand.addOption(AutonomousSteps.DRIVE, m_drivePath);
     m_stepDrivePath = new StepState(AutonomousSteps.DRIVE,
         m_ConsoleAuto.getSwitchSupplier(3));

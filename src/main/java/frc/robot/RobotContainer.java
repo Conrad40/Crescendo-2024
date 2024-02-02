@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -43,16 +44,17 @@ public class RobotContainer {
         m_drive.setDefaultCommand(
                 Commands.run(
                         () -> m_drive.drive(
-                                -MathUtil.applyDeadband(-m_driverController.getLeftX(), .08),
-                                -MathUtil.applyDeadband(m_driverController.getLeftY(), .08),
-                                -MathUtil.applyDeadband(m_driverController.getRightX(), .08), false,
+                              .5*  -MathUtil.applyDeadband(-m_driverController.getLeftX(), .08),
+                              .5*  -MathUtil.applyDeadband(m_driverController.getLeftY(), .08),
+                              .5* -MathUtil.applyDeadband(m_driverController.getRightX(), .08), false,
                                 true),
                         m_drive));
+                        configureBindings();
 
     }
 
     private void configureBindings() {
-var thetaController = new ProfiledPIDController(1, 0,0, null);
+var thetaController = new ProfiledPIDController(1, 0,0, new Constraints(5, 1));
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
         m_swerveDriveController =  new SwerveDriveController(
