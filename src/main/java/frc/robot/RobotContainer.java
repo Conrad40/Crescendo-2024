@@ -9,6 +9,7 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Commands.AutoControl;
 import frc.robot.Commands.AutoSelect;
@@ -20,8 +21,12 @@ import frc.robot.Subsystems.Drive;
 import frc.robot.Subsystems.AutonomousSubsystem.Paths;
 
 /** Add your docs here. */
+// If the climb has 2 independent arms it might be usfule to be able to
+// indepently move them
+// I dont want to have 2 driver controlers if not completly nessisary, last
+// years two controllers were annoying.
 public class RobotContainer {
-    private final Drive m_drive = new Drive();
+        private final Drive m_drive = new Drive();
 
     private final CommandXboxController m_driverController = new CommandXboxController(
             OperatorConstants.kDriverControllerPort);
@@ -34,12 +39,8 @@ public class RobotContainer {
     private final AutoControl m_autoCommand = new AutoControl(m_autonomous, m_drive);
     private SwerveDriveController m_swerveDriveController;
 
-     
-
+  
     public RobotContainer() {
-                
-
-
 
         m_drive.setDefaultCommand(
                 Commands.run(
@@ -49,12 +50,12 @@ public class RobotContainer {
                               .5* -MathUtil.applyDeadband(m_driverController.getRightX(), .08), false,
                                 true),
                         m_drive));
-                        configureBindings();
+       configureBindings();
 
     }
 
     private void configureBindings() {
-var thetaController = new ProfiledPIDController(1, 0,0, new Constraints(5, 1));
+        var thetaController = new ProfiledPIDController(1, 0,0, new Constraints(5, 1));
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
         m_swerveDriveController =  new SwerveDriveController(

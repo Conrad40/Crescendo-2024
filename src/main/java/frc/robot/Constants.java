@@ -17,110 +17,110 @@ import edu.wpi.first.math.util.Units;
 public final class Constants {
 
     public static final class CANIDConstants {
-        // SPARK MAX CAN IDs
-        // roborio and powerhub are 0 and 1
+        // CAN IDs
+        // PDP and PNUMATICS are normaly 0 and 1 
+        //drive gets 02 to 09
+        //subsystem 1 gets 10 to 19
+        //subsystem 2 gets 20 to 29
+        //ect... 
 
-        public static final int kFrontLeftDrivingCanId = 2;
-        public static final int kRearLeftDrivingCanId = 4;
-        public static final int kFrontRightDrivingCanId = 6;
-        public static final int kRearRightDrivingCanId = 8;
+        public static final int kFRONT_LEFT_DRIVING_CAN_ID = 2;
+        public static final int kREAR_LEFT_DRIVING_CAN_ID = 4;
+        public static final int kFRONT_RIGHT_DRIVING_CAN_ID = 6;
+        public static final int kREAR_RIGHT_DRIVING_CAN_ID = 8;
 
-        public static final int kFrontLeftTurningCanId = 3;
-        public static final int kRearLeftTurningCanId = 5;
-        public static final int kFrontRightTurningCanId = 7;
-        public static final int kRearRightTurningCanId = 9;
+        public static final int kFRONT_LEFT_TURNING_CAN_ID = 3;
+        public static final int kREAR_LEFT_TURNING_CAN_ID = 5;
+        public static final int kFRONT_RIGHT_TURNING_CAN_ID = 7;
+        public static final int kREAR_RIGHT_TURNING_CAN_ID = 9;
     }
 
     public static final class DriveConstants {
-        public static final double kFreeSpeedRpm = 5676;
+        public static final double kFREE_SPEED_RPM = 5676;
         // Driving Parameters - Note that these are not the maximum capable speeds of
         // the robot, rather the allowed maximum speeds
-        public static final double kMaxSpeedMetersPerSecond = 4.8;
-        public static final double kMaxAngularSpeed = 2 * Math.PI; // radians per second
+        public static final double kMAX_SPEED_METERS_PER_SECOND = 4.8;
+        public static final double kMAX_ANGULAR_SPEED = 2 * Math.PI; // radians per second
         public static final double kMAX_ACCELERATION_METERS_PER_SECOND_SQUARED = 4;
-        public static final double kDirectionSlewRate = 1.2; // radians per second
-        public static final double kMagnitudeSlewRate = 1.8; // percent per second (1 = 100%)
-        public static final double kRotationalSlewRate = 2.0; // percent per second (1 = 100%)
+        public static final double kDIRECTION_SLEW_RATE = 1.2; // radians per second
+        public static final double kMAGNITUDE_SLEW_RATE = 1.8; // percent per second (1 = 100%)
+        public static final double KROTATIONAL_SLEW_RATE = 2.0; // percent per second (1 = 100%)
 
-        public static final double kFrontLeftChassisAngularOffset = -Math.PI / 2;
-        public static final double kFrontRightChassisAngularOffset = 0;
-        public static final double kBackLeftChassisAngularOffset = Math.PI;
-        public static final double kBackRightChassisAngularOffset = -Math.PI / 2;//This shouldnt work, but it does
 
-        public static final double kTrackWidth = Units.inchesToMeters(28);
+        public static final double kFRONT_LEFT_CHASSIS_ANGULAR_OFFSET = -Math.PI / 2;
+        public static final double kFRONT_RIGHT_CHASSIS_ANGULAR_OFFSET = 0;
+        public static final double kBACK_LEFT_CHASSIS_ANGULAR_OFFSET = Math.PI;
+        public static final double kBACK_RIGHT_CHASSIS_ANGULAR_OFFSET = Math.PI / 2;
+
+        public static final double kTRACK_WIDTH = Units.inchesToMeters(26.5);
         // Distance between centers of right and left wheels on robot
-        //you might have to switch them depending on what ends up being the front
-        public static final double kWheelBase = Units.inchesToMeters(25);
+        public static final double kWHEEL_BASE = Units.inchesToMeters(26.5);
 
         // Distance between front and back wheels on robot
-        public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
-                new Translation2d(kWheelBase / 2, kTrackWidth / 2),
-                new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
-                new Translation2d(-kWheelBase / 2, kTrackWidth / 2),
-                new Translation2d(-kWheelBase / 2, -kTrackWidth / 2));
+        public static final SwerveDriveKinematics kDRIVE_KINEMATICS = new SwerveDriveKinematics(
+                new Translation2d(kWHEEL_BASE / 2, kTRACK_WIDTH / 2),
+                new Translation2d(kWHEEL_BASE / 2, -kTRACK_WIDTH / 2),
+                new Translation2d(-kWHEEL_BASE / 2, kTRACK_WIDTH / 2),
+                new Translation2d(-kWHEEL_BASE / 2, -kTRACK_WIDTH / 2));
         // Chassis configuration
-        public static final boolean kGyroReversed = !true;
 
-
-         //public static final HolonomicDriveController thetaController = new HolonomicDriveController(new PIDController(1.0, 0.0, 0.0),
-        //new PIDController(1.0, 0.0, 0.0), new ProfiledPIDController(1.0, 0.0, 0.0, null));
-
+        public static final boolean kGYRO_REVERSED = false;
     }
 
     public static class SwerveConstants {
-        public static final int kDrivingMotorPinionTeeth = 12;
+        public static final int kDRIVING_MOTOR_PINION_TEETH = 12;
 
         // Invert the turning encoder, since the output shaft rotates in the opposite
         // direction of
         // the steering motor in the MAXSwerve Module.
-        public static final boolean kTurningEncoderInverted = true;
+        public static final boolean kTURNING_ENCODER_INVERTED = true;
 
         // Calculations required for driving motor conversion factors and feed forward
-        public static final double kDrivingMotorFreeSpeedRps = DriveConstants.kFreeSpeedRpm / 60;
-        public static final double kWheelDiameterMeters = 0.0762;
-        public static final double kWheelCircumferenceMeters = kWheelDiameterMeters * Math.PI;
+        public static final double kDRIVING_MOTOR_FREE_SPEED_RPS = DriveConstants.kFREE_SPEED_RPM / 60;
+        public static final double kWHEEL_DIAMETER_METERS = 0.0762;
+        public static final double kWHEEL_CIRCUMFERENCE = kWHEEL_DIAMETER_METERS * Math.PI;
         // 45 teeth on the wheel's bevel gear, 22 teeth on the first-stage spur gear, 15
         // teeth on the bevel pinion
-        public static final double kDrivingMotorReduction = (45.0 * 22) / (kDrivingMotorPinionTeeth * 15);
-        public static final double kDriveWheelFreeSpeedRps = (kDrivingMotorFreeSpeedRps * kWheelCircumferenceMeters)
-                / kDrivingMotorReduction;
+        public static final double kDRIVING_MOTOR_REDUCTION = (45.0 * 22) / (kDRIVING_MOTOR_PINION_TEETH * 15);
+        public static final double kDRIVE_WHEEL_FREE_SPEED_RPS = (kDRIVING_MOTOR_FREE_SPEED_RPS * kWHEEL_CIRCUMFERENCE)
+                / kDRIVING_MOTOR_REDUCTION;
 
-        public static final double kDrivingEncoderPositionFactor = (kWheelDiameterMeters * Math.PI)
-                / kDrivingMotorReduction; // meters
-        public static final double kDrivingEncoderVelocityFactor = ((kWheelDiameterMeters * Math.PI)
-                / kDrivingMotorReduction) / 60.0; // meters per second
+        public static final double kDRIVING_ENCODER_POSITION_FACTOR = (kWHEEL_DIAMETER_METERS * Math.PI)
+                / kDRIVING_MOTOR_REDUCTION; // meters
+        public static final double kDRIVING_ENCODER_VELOCITY_FACTOR = ((kWHEEL_DIAMETER_METERS * Math.PI)
+                / kDRIVING_MOTOR_REDUCTION) / 60.0; // meters per second
 
-        public static final double kTurningEncoderPositionFactor = (2 * Math.PI); // radians
-        public static final double kTurningEncoderVelocityFactor = (2 * Math.PI) / 60.0; // radians per second
+        public static final double kTURING_ENCODER_POSTION_FACTOR = (2 * Math.PI); // radians
+        public static final double kTURNING_ENCODER_VELOCITY_FACTOR = (2 * Math.PI) / 60.0; // radians per second
 
-        public static final double kTurningEncoderPositionPIDMinInput = 0; // radians
-        public static final double kTurningEncoderPositionPIDMaxInput = kTurningEncoderPositionFactor; // radians
+        public static final double kTURNING_ENCODER_POSITION_PID_MIN_INPUT = 0; // radians
+        public static final double kTURNING_ENCODER_POSITION_PID_MAX_INPUT = kTURING_ENCODER_POSTION_FACTOR; // radians
 
-        public static final double kDrivingP = 0.04;
-        public static final double kDrivingI = 0;
-        public static final double kDrivingD = 0;
-        public static final double kDrivingFF = 1 / kDriveWheelFreeSpeedRps;
-        public static final double kDrivingMinOutput = -1;
-        public static final double kDrivingMaxOutput = 1;
+        public static final double kDRIVING_P = 0.04;
+        public static final double kDRIVING_I = 0;
+        public static final double kDRIVING_D = 0;
+        public static final double kDRIVING_FF = 1 / kDRIVE_WHEEL_FREE_SPEED_RPS;
+        public static final double kDRIVING_MIN_OUTPUT = -1;
+        public static final double kDRVIVING_MAX_OUTPUT = 1;
 
-        public static final double kTurningP = 1;
-        public static final double kTurningI = 0;
-        public static final double kTurningD = 0;
-        public static final double kTurningFF = 0;
-        public static final double kTurningMinOutput = -1;
-        public static final double kTurningMaxOutput = 1;
+        public static final double kTURNING_P = 1;
+        public static final double kTURNING_I = 0;
+        public static final double kTURNING_D = 0;
+        public static final double kTURNING_FF = 0;
+        public static final double kTURNING_MIN_OUTPUT = -1;
+        public static final double kTURNING_MAX_OUTPUT = 1;
 
-        public static final IdleMode kDrivingMotorIdleMode = IdleMode.kBrake;
-        public static final IdleMode kTurningMotorIdleMode = IdleMode.kBrake;
+        public static final IdleMode kDRIVING_MOTOR_IDLE_MODE = IdleMode.kBrake;
+        public static final IdleMode kTURNING_MOTOR_IDLE_MODE = IdleMode.kBrake;
 
-        public static final int kDrivingMotorCurrentLimit = 50; // amps
-        public static final int kTurningMotorCurrentLimit = 20; // amps
+        public static final int kDRIVING_MOTOR_CURRENT_LIMIT = 40; // amps
+        public static final int kTURNING_MOTOR_CURRENT_LIMIT = 20; // amps
 
     }
 
     public static class OperatorConstants {
 
-        public static final int kDriverControllerPort = 0;
+        public static final int kDRIVER_CONTROLLER_PORT = 0;
         public static final int kAUTONOMOUS_CONSOLE_PORT = 1;
     }
 

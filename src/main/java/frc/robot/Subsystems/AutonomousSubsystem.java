@@ -33,26 +33,62 @@ import frc.robot.Libraries.StepState;
 
 //There is a 95% chance that it will crash if you try to run auto so dont
 // Something interesting I found was DriverStation.getMatchTime() It returns how much time is left, might be useful.
-public class AutonomousSubsystem extends SubsystemBase {
-  public enum Paths {
-    BASIC(0.0, 0.0, 2.5, 2.0),
-    BEND(0, 0, 1, .5, 2, 0);
 
-    private final double m_dStartX;
-    private final double m_DStartY;
-    private final double m_DMidX;
-    private final double m_dMidY;
-    private final double m_dEndX;
-    private final double m_dEndY;
+public class AutonomousSubsystem {
+        private enum Paths {
+                BASIC(0, 0, 2.5, 0),
+                BEND(0, 0, 1, .5, 2, 0);
 
-    private Paths(double dStartX, double dStartY, double dEndX, double dEndY) {
-      this.m_dStartX = dStartX;
-      this.m_DStartY = dStartY;
-      this.m_DMidX = (dStartX + dEndX) / 2;
-      this.m_dMidY = (dStartY + dEndY) / 2;
-      this.m_dEndX = dEndX;
-      this.m_dEndY = dEndY;
-    }
+                private final double m_dStartX;
+                private final double m_DStartY;
+                private final double m_DMidX;
+                private final double m_dMidY;
+                private final double m_dEndX;
+                private final double m_dEndY;
+
+                private Paths(double dStartX, double dStartY, double dEndX, double dEndY) {
+                        this.m_dStartX = dStartX;
+                        this.m_DStartY = dStartY;
+                        this.m_DMidX = (dStartX + dEndX) / 2;
+                        this.m_dMidY = (dStartY + dEndY) / 2;
+                        this.m_dEndX = dEndX;
+                        this.m_dEndY = dEndY;
+                }
+
+                private Paths(double dStartX, double dStartY, double dMidX, double dMidY, double dEndX, double dEndY) {
+                        this.m_dStartX = dStartX;
+                        this.m_DStartY = dStartY;
+                        this.m_DMidX = dMidX;
+                        this.m_dMidY = dMidY;
+                        this.m_dEndX = dEndX;
+                        this.m_dEndY = dEndY;
+                }
+
+                double getStartX() {
+                        return m_dStartX;
+                }
+
+                double getStartY() {
+                        return m_DStartY;
+                }
+
+                double getMidX() {
+                        return m_DMidX;
+                }
+
+                double getMidY() {
+                        return m_dMidY;
+                }
+
+                double getEndX() {
+                        return m_dEndX;
+                }
+
+                double getEndY() {
+                        return m_dEndY;
+                }
+        }
+
 
     private Paths(double dStartX, double dStartY, double dMidX, double dMidY, double dEndX, double dEndY) {
       this.m_dStartX = dStartX;
@@ -431,6 +467,5 @@ System.out.println(DriverStation.getAlliance().toString());
   public boolean isCommandDone() {
     return m_bIsCommandDone;
   }
-
 
 }

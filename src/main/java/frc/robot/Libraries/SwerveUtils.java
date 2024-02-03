@@ -3,7 +3,7 @@ package frc.robot.Libraries;
 
 /** Add your docs here. */
 //no docs for you lol
-
+//thats bad practice you should know better. add some
 public class SwerveUtils {
 
     /**
