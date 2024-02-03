@@ -239,10 +239,12 @@ public class AutonomousSubsystem extends SubsystemBase {
   private SwerveDriveController m_drivePath;
   private StepState m_stepDrivePath;
 
+ private SwerveDriveController m_testReadFilePath;
+ private StepState m_stepTestReadFile;
 
   private Command m_turnPath;
   private StepState m_stepturnPath;
-  // private String m_path1JSON = "paths/Path1.wpilib.json";
+   private String m_path1JSON = "paths/Blue Right Out 1.wpilib.json";
   // private Trajectory m_trajPath1;
 
   private AutonomousSteps m_currentStepName;
@@ -264,26 +266,24 @@ public class AutonomousSubsystem extends SubsystemBase {
 
     m_stepWaitForCount = new StepState(AutonomousSteps.WAITLOOP);
 
-    // make it work. How - IDK. I just want it to have a clean build for now.
-    // ln 221
+    
     var thetaController = new ProfiledPIDController(2, 0,0, new Constraints(5, 1));
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
-  m_drivePath = new SwerveDriveController(genTrajectory(Paths.BASIC),
+
+  m_drivePath = new SwerveDriveController(readPaths(m_path1JSON),
         kRESET_ODOMETRY, m_drive, thetaController);
     m_autoCommand.addOption(AutonomousSteps.DRIVE, m_drivePath);
     m_stepDrivePath = new StepState(AutonomousSteps.DRIVE,
         m_ConsoleAuto.getSwitchSupplier(3));
-    /*
-     * m_autoCommand.addOption(AutonomousSteps.TURNPATH, new
-     * RamseteDrivePath(genTrajectory(Paths.BEND), kRESET_ODOMETRY, m_drive));
-     * m_stepturnPath = new
-     * StepState(AutonomousSteps.TURNPATH,m_ConsoleAuto.getSwitchSupplier(3));
-     */
+   
+         m_testReadFilePath = new SwerveDriveController(readPaths(m_path1JSON), kRESET_ODOMETRY, drive, thetaController);
+m_autoCommand.addOption(AutonomousSteps.TEST, m_testReadFilePath);
+m_stepTestReadFile = new StepState(AutonomousSteps.TEST);
 
     m_cmdSteps = new StepState[][] {
         { m_stepWaitForCount, m_stepDrivePath }
-        //{ m_stepWaitForCount, m_stepBalance },
+//        { m_stepWaitForCount, m_stepTestReadFile }
        // { m_stepWaitForCount,  m_stepturnPath }
         // { m_stepWaitForCount, m_stepMoveArm, m_stepPlaceConeM, m_stepDrive3Path }
     };
@@ -307,7 +307,7 @@ public class AutonomousSubsystem extends SubsystemBase {
       Path trajPath = Filesystem.getDeployDirectory().toPath().resolve(jsonPath);
       trajectory = TrajectoryUtil.fromPathweaverJson(trajPath);
     } catch (IOException ex) {
-
+System.out.println("Reading the path failed");
     }
     return trajectory;
   }

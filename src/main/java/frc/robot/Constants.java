@@ -59,7 +59,7 @@ public final class Constants {
                 new Translation2d(-kWheelBase / 2, kTrackWidth / 2),
                 new Translation2d(-kWheelBase / 2, -kTrackWidth / 2));
         // Chassis configuration
-        public static final boolean kGyroReversed = false;
+        public static final boolean kGyroReversed = !true;
 
 
          //public static final HolonomicDriveController thetaController = new HolonomicDriveController(new PIDController(1.0, 0.0, 0.0),
@@ -68,7 +68,7 @@ public final class Constants {
     }
 
     public static class SwerveConstants {
-        public static final int kDrivingMotorPinionTeeth = 14;
+        public static final int kDrivingMotorPinionTeeth = 12;
 
         // Invert the turning encoder, since the output shaft rotates in the opposite
         // direction of
