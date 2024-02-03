@@ -29,7 +29,7 @@ public class RobotContainer {
         private final Drive m_drive = new Drive();
 
     private final CommandXboxController m_driverController = new CommandXboxController(
-            OperatorConstants.kDriverControllerPort);
+            OperatorConstants.kDRIVER_CONTROLLER_PORT);
 
     private final ConsoleAuto m_consoleAuto = new ConsoleAuto(OperatorConstants.kAUTONOMOUS_CONSOLE_PORT);
     private final AutonomousSubsystem m_autonomous = new AutonomousSubsystem(m_consoleAuto, m_drive);

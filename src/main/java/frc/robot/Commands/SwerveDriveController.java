@@ -22,7 +22,7 @@ public class SwerveDriveController extends SwerveControllerCommand {
 
   public SwerveDriveController(Trajectory trajectory, boolean resetOdometry, Drive drive, ProfiledPIDController thetaController) {
 
-    super(trajectory, drive::getPose, DriveConstants.kDriveKinematics, 
+    super(trajectory, drive::getPose, DriveConstants.kDRIVE_KINEMATICS, 
      new PIDController(1, 0, 0), new PIDController(1, 0, 0), thetaController,
         drive::setModuleStates, drive);
     // Use addRequirements() here to declare subsystem dependencies.
