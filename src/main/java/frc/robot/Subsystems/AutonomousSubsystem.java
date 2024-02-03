@@ -247,7 +247,7 @@ public class AutonomousSubsystem extends SubsystemBase{
 
   private Command m_turnPath;
   private StepState m_stepturnPath;
-   private String m_path1JSON = "paths/Blue Right Out 1.wpilib.json";
+   private String m_path1JSON = "Blue Right Out 1.wpilib.json";
   // private Trajectory m_trajPath1;
 
   private AutonomousSteps m_currentStepName;
@@ -330,7 +330,7 @@ System.out.println("Reading the path failed");
       autoSelectIx = 0;
       m_iPatternSelect = 0;
     }
-System.out.println(DriverStation.getAlliance().toString());
+//System.out.println(DriverStation.getAlliance().toString());
     boolean isAllianceRed = (DriverStation.getAlliance().toString() == "Red");
     m_allianceColor.setBoolean(isAllianceRed);
 
