@@ -6,6 +6,9 @@ package frc.robot;
 
 import com.revrobotics.CANSparkBase.IdleMode;
 
+import edu.wpi.first.math.controller.HolonomicDriveController;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
@@ -43,6 +46,7 @@ public final class Constants {
         public static final double kMAGNITUDE_SLEW_RATE = 1.8; // percent per second (1 = 100%)
         public static final double KROTATIONAL_SLEW_RATE = 2.0; // percent per second (1 = 100%)
 
+
         public static final double kFRONT_LEFT_CHASSIS_ANGULAR_OFFSET = -Math.PI / 2;
         public static final double kFRONT_RIGHT_CHASSIS_ANGULAR_OFFSET = 0;
         public static final double kBACK_LEFT_CHASSIS_ANGULAR_OFFSET = Math.PI;
@@ -59,11 +63,12 @@ public final class Constants {
                 new Translation2d(-kWHEEL_BASE / 2, kTRACK_WIDTH / 2),
                 new Translation2d(-kWHEEL_BASE / 2, -kTRACK_WIDTH / 2));
         // Chassis configuration
+
         public static final boolean kGYRO_REVERSED = false;
     }
 
     public static class SwerveConstants {
-        public static final int kDRIVING_MOTOR_PINION_TEETH = 14;
+        public static final int kDRIVING_MOTOR_PINION_TEETH = 12;
 
         // Invert the turning encoder, since the output shaft rotates in the opposite
         // direction of

@@ -8,9 +8,10 @@ import java.util.function.IntSupplier;
 
 import edu.wpi.first.util.sendable.SendableRegistry;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 
-public class WaitForCount extends CommandBase {
+
+public class WaitForCount extends Command {
   /** Creates a new WaitForCount. */
   protected Timer m_timer = new Timer();
   private final double m_duration;
