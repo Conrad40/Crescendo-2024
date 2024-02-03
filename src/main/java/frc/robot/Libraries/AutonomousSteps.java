@@ -13,6 +13,7 @@ public enum AutonomousSteps {
     WAIT1,
     WAIT2,
     WAITLOOP,
+    TEST,
    // FINDSUMPIN,
     END,
     BALANCE,
