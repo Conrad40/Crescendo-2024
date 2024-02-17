@@ -18,6 +18,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.Libraries.ConsoleAuto;
 import frc.robot.Subsystems.AutonomousSubsystem;
 import frc.robot.Subsystems.Drive;
+import frc.robot.Subsystems.Intake;
 import frc.robot.Subsystems.Shooter;
 import frc.robot.Subsystems.AutonomousSubsystem.Paths;
 
@@ -29,6 +30,7 @@ import frc.robot.Subsystems.AutonomousSubsystem.Paths;
 public class RobotContainer {
     private final Drive m_drive = new Drive();
     private final Shooter m_Shooter = new Shooter();
+    private final Intake m_Intake = new Intake();
 
     private final CommandXboxController m_driverController = new CommandXboxController(
             OperatorConstants.kDRIVER_CONTROLLER_PORT);
@@ -42,12 +44,12 @@ public class RobotContainer {
     private SwerveDriveController m_swerveDriveController;
 
     public RobotContainer() {
-        
+
         m_Shooter.setDefaultCommand(Commands.run(
                 () -> m_Shooter.Shoot(MathUtil.applyDeadband(m_driverController.getLeftTriggerAxis(), .5) * .5 + .5),
                 m_Shooter));
-                //sets the range you shoot at 1 to .75 controlled by how hard the trigger is pressed.
-
+        // sets the range you shoot at 1 to .75 controlled by how hard the trigger is
+        // pressed.
 
         m_drive.setDefaultCommand(
                 Commands.run(
@@ -72,6 +74,19 @@ public class RobotContainer {
         m_driverController
                 .a()
                 .onTrue(m_swerveDriveController);
+
+        m_driverController
+                .leftBumper()
+                .onTrue(Commands.runOnce(() -> m_Intake.retractIntake()));
+        m_driverController
+                .leftBumper()
+                .onFalse(Commands.runOnce(() -> m_Intake.stopIntake()));
+
+        m_driverController.leftStick().onTrue(Commands.runOnce(() -> m_Intake.intakeNote()));
+        m_driverController.leftStick().onFalse(Commands.runOnce(() -> m_Intake.holdNote()));
+
+        m_driverController.rightStick().onTrue(Commands.runOnce(() -> m_Intake.dropNote()));
+        m_driverController.rightStick().onFalse(Commands.runOnce(() -> m_Intake.holdNote()));
     }
 
     public Command getAutoSelect() {
